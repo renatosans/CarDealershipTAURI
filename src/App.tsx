@@ -1,47 +1,59 @@
-import "./App.css";
-import { useState } from "react";
-import { invoke } from "@tauri-apps/api/tauri";
+import { carType } from './utils/types'
+import { useState, useEffect } from 'react'
+import Carousel from './components/Carousel'
+import styles from '@/styles/Home.module.css'
+import VehicleForm from './components/'
+import VehicleList from './components/VehicleList'
+import Draggable from 'react-draggable'
+import toast, { Toaster } from "react-hot-toast"
 
 
-function App() {
-  const [greetMsg, setGreetMsg] = useState("");
-  const [name, setName] = useState("");
+export default function Home() {
+  const [open, setOpen] = useState(false);
+  const [cars, setCars] = useState<carType[]>();
 
-  async function greet() {
-    // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
-    setGreetMsg(await invoke("greet", { name }));
+  useEffect(() => {
+    getCars();
+  }, []);
+
+  const getCars = () => {
+    fetch('api/cars')
+    .then(resp => resp.json())
+    .then(resultSet => setCars(resultSet))
+    .catch(error => console.error(error))
+  }
+
+  const toggle = () => {
+    setOpen(current => !current);
+  }
+
+  const addCar = () => {
+    setOpen(true);
+  }
+
+  const addCustomer = () => {
+    // not implemented yet
   }
 
   return (
-    <div className="container">
-      <h1>Welcome to Tauri!</h1>
-
-      <div className="row">
-        <a href="https://tauri.app" target="_blank">
-          <img src="/tauri.svg" className="logo tauri" alt="Tauri logo" />
-        </a>
+    <div className={styles.container}>
+      <Head>
+        <title>Car Dealership</title>
+        <meta name="description" content="Ride your own car" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <Toaster/>
+      <Carousel/>
+      <Draggable>
+      <div>
+        <VehicleForm parentRef={{ toggle, getCars }} opened={open} />
       </div>
-
-      <p>Click on the Tauri, Vite, and React logos to learn more.</p>
-
-      <div className="row">
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            greet();
-          }}
-        >
-          <input
-            id="greet-input"
-            onChange={(e) => setName(e.currentTarget.value)}
-            placeholder="Enter a name..."
-          />
-          <button type="submit">Greet</button>
-        </form>
+      </Draggable>
+      <div className={styles.actions}>
+        <button className={styles.button} onClick={addCar}>Cadastrar veículo</button>        
+        <button className={styles.button} onClick={addCustomer}>Cadastrar Cliente</button>
       </div>
-      <p>{greetMsg}</p>
+      <VehicleList items={cars} desc={'Car for sale. Available'} />
     </div>
-  );
+  )
 }
-
-export default App;
