@@ -1,6 +1,7 @@
 import "./App.css";
 import Draggable from 'react-draggable'
 import { carType } from './utils/types'
+import { baseUrl } from './utils/defines'
 import { useState, useEffect } from 'react'
 import Carousel from './components/Carousel'
 import VehicleForm from './components/VehicleForm'
@@ -17,7 +18,7 @@ export default function Home() {
   }, []);
 
   const getCars = () => {
-    fetch('api/cars')
+    fetch(baseUrl + `/api/cars`)
     .then(resp => resp.json())
     .then(resultSet => setCars(resultSet))
     .catch(error => console.error(error))

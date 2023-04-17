@@ -10,7 +10,7 @@ use std::thread;
 use dotenv::dotenv;
 use handlers::customer;
 use handlers::salesperson;
-// use handlers::cars_for_sale;
+use handlers::cars_for_sale;
 use diesel::prelude::*;
 use diesel::r2d2::{self, ConnectionManager};
 use actix_web::{web, middleware, App, HttpServer};
