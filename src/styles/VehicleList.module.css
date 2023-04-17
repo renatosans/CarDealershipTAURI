@@ -4,13 +4,13 @@
   flex-direction: column;
   padding: 20px 10px;
 }
-  
+
 .desc {
   color: #444;
   font-size: 24px;
   width: 70%;
 }
-  
+
 .wrapper {
   align-items: center;
   display: flex;
@@ -18,7 +18,7 @@
   justify-content: center;
   width: 100%;
 }
-  
+
 @media screen and (max-width: 480px) {
   .title {
     text-align: center;

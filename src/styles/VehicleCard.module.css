@@ -9,26 +9,26 @@
   width: 25%;
   background-color: lightgray;
 }
-  
+
 .title {
   --tw-text-opacity: 1;
   color: rgb(55 48 163 / var(--tw-text-opacity));
   font-size: 22px;
   font-weight: bold;
 }
-  
+
 .price {
   --tw-text-opacity: 1;
   color: rgb(55 48 163 / var(--tw-text-opacity));
   font-size: 18px;
   font-weight: bold;
 }
-  
+
 .category {
   color: #222;
   text-align: center;
 }
-  
+
 .color {
   color: #222;
   text-align: center;
