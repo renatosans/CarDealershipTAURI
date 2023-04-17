@@ -10,4 +10,4 @@ O mesmo se aplica para escalar o time de desenvolvimento, com 2 equipes, uma par
 - npm install
 - npm run tauri dev
 - Backend at http://127.0.0.1:8080/api/customers
-- Frontend at http://127.0.0.1:3000/
+- Frontend at http://127.0.0.1:1420/
