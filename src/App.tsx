@@ -1,10 +1,10 @@
+import Draggable from 'react-draggable'
 import { carType } from './utils/types'
 import { useState, useEffect } from 'react'
 import Carousel from './components/Carousel'
 import styles from '@/styles/Home.module.css'
-import VehicleForm from './components/'
+import VehicleForm from './components/VehicleForm'
 import VehicleList from './components/VehicleList'
-import Draggable from 'react-draggable'
 import toast, { Toaster } from "react-hot-toast"
 
 
@@ -37,11 +37,11 @@ export default function Home() {
 
   return (
     <div className={styles.container}>
-      <Head>
+      <header>
         <title>Car Dealership</title>
         <meta name="description" content="Ride your own car" />
         <link rel="icon" href="/favicon.ico" />
-      </Head>
+      </header>
       <Toaster/>
       <Carousel/>
       <Draggable>
