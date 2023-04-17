@@ -8,6 +8,7 @@ O mesmo se aplica para escalar o time de desenvolvimento, com 2 equipes, uma par
 
 ## Steps to run the project
 - run the sql script to create the database
+- .env
 - npm install
 - npm run tauri dev
 - Backend at http://127.0.0.1:8080/api/customers
