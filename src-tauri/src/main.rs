@@ -53,6 +53,11 @@ async fn serve() -> std::io::Result<()> {
             .route("/", web::get().to(|| async { "Actix REST API" }))
             .service(
                 web::scope("/api")
+                    .service(cars_for_sale::index)
+                    .service(cars_for_sale::select)
+                    .service(cars_for_sale::create)
+                    .service(cars_for_sale::update)
+                    .service(cars_for_sale::delete)
                     .service(customer::index)
                     .service(customer::select)
                     .service(customer::create)
