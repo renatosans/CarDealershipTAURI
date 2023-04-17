@@ -23,12 +23,12 @@ const Carousel = () => {
     return (
         <div className={styles.container}>
         <div className={styles.arrowContainer}  style={{left:0}} onClick={() => handleArrow("l")}>
-        <img src={"/img/arrowl.png"} alt="" width="32" height="32" />
+        <img src={"/img/arrowl.png"} alt="" width="64" height="64" />
         </div>
         <div className={styles.wrapper} style={{transform:`translateX(${-100*index}vw)`}}>{
           images.map((img, i)=>(
             <div className={styles.imgContainer}  key={i} >
-              <img src={img} alt="" layout="fill" objectFit='contain'/>
+              <img src={img} alt="" height="100%" />
             </div>))
         }
         </div>
