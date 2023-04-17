@@ -14,7 +14,7 @@ use handlers::cars_for_sale;
 use diesel::prelude::*;
 use diesel::r2d2::{self, ConnectionManager};
 use actix_cors::Cors;
-use actix_web::{http, web, middleware, App, HttpServer};
+use actix_web::{web, middleware, App, HttpServer};
 
 pub type DbPool = r2d2::Pool<ConnectionManager<MysqlConnection>>;
 

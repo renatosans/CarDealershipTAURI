@@ -8,6 +8,8 @@ O mesmo se aplica para escalar o time de desenvolvimento, com 2 equipes, uma par
 
 use   NPM RUN TAURI DEV    para rodar backend e frontend simultaneamente
 
+## Dependencies
+- Diesel ORM depends on the following client library:   libmysqlclient
 
 ## Steps to run the project
 - run the sql script to create the database
