@@ -9,7 +9,7 @@ mod handlers;
 use std::thread;
 use dotenv::dotenv;
 use handlers::customer;
-// use handlers::salesperson;
+use handlers::salesperson;
 // use handlers::cars_for_sale;
 use diesel::prelude::*;
 use diesel::r2d2::{self, ConnectionManager};
@@ -58,6 +58,11 @@ async fn serve() -> std::io::Result<()> {
                     .service(customer::create)
                     .service(customer::update)
                     .service(customer::delete)
+                    .service(salesperson::index)
+                    // .service(salesperson::select)
+                    // .service(salesperson::create)
+                    // .service(salesperson::update)
+                    .service(salesperson::delete)
             )
     })
     .bind(("127.0.0.1", 8080))?
