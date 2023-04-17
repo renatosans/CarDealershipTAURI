@@ -2,7 +2,7 @@ use crate::DbPool;
 use crate::models::*;
 use crate::schema::salesperson::dsl::*;
 use diesel::prelude::*;
-use actix_web::{get, post, patch, delete, web, HttpResponse, Error};
+use actix_web::{get, delete, web, HttpResponse, Error};
 
 
 #[get("/salespeople")]
