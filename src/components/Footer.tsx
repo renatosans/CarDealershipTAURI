@@ -7,7 +7,7 @@ const Footer = () => {
         <div className={styles.container}>
 
           <div className={styles.item}>
-              <img src="/img/trip.jpg" alt='' width="30%" />
+              <img src="/img/trip.jpg" alt='' width={150} />
           </div>
 
           <div className={styles.item}>
