@@ -1,6 +1,7 @@
-import { useState, FormEvent } from 'react'
 import { carType } from '../utils/types'
+import { baseUrl } from '../utils/defines'
 import { notification } from '../utils/notification'
+import { useState, FormEvent } from 'react'
 import toast, { Toaster, ToastOptions } from 'react-hot-toast'
 import styles from '../styles/VehicleForm.module.css'
 
@@ -35,7 +36,7 @@ export const VehicleForm = ({parentRef, opened}: any) => {
 
         const payload = {...car, ...image};
 
-        fetch(`/api/cars`, {
+        fetch(baseUrl + `/api/cars`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', },
             body: JSON.stringify(payload), })
