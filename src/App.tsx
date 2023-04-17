@@ -1,8 +1,8 @@
+import "./App.css";
 import Draggable from 'react-draggable'
 import { carType } from './utils/types'
 import { useState, useEffect } from 'react'
 import Carousel from './components/Carousel'
-import styles from '@/styles/Home.module.css'
 import VehicleForm from './components/VehicleForm'
 import VehicleList from './components/VehicleList'
 import toast, { Toaster } from "react-hot-toast"
@@ -36,7 +36,7 @@ export default function Home() {
   }
 
   return (
-    <div className={styles.container}>
+    <div className="container">
       <header>
         <title>Car Dealership</title>
         <meta name="description" content="Ride your own car" />
@@ -49,9 +49,9 @@ export default function Home() {
         <VehicleForm parentRef={{ toggle, getCars }} opened={open} />
       </div>
       </Draggable>
-      <div className={styles.actions}>
-        <button className={styles.button} onClick={addCar}>Cadastrar veículo</button>        
-        <button className={styles.button} onClick={addCustomer}>Cadastrar Cliente</button>
+      <div className="actions">
+        <button className="button" onClick={addCar}>Cadastrar veículo</button>        
+        <button className="button" onClick={addCustomer}>Cadastrar Cliente</button>
       </div>
       <VehicleList items={cars} desc={'Car for sale. Available'} />
     </div>

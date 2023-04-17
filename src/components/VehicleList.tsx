@@ -1,6 +1,6 @@
 import VehicleCard from './VehicleCard'
 import { carType } from '../utils/types'
-import styles from '@/styles/VehicleList.module.css'
+import styles from '../styles/VehicleList.module.css'
 
 
 type props = {
