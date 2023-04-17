@@ -53,7 +53,7 @@ pub struct Invoice {
     pub amount: i32,
 }
 
-#[derive(Queryable, Insertable, Serialize, Deserialize, Debug)]
+#[derive(Queryable, Insertable, AsChangeset, Serialize, Deserialize, Debug)]
 #[diesel(table_name = salesperson)]
 pub struct Salesperson {
     pub id: i32,

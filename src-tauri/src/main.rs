@@ -69,7 +69,7 @@ async fn serve() -> std::io::Result<()> {
                     .service(salesperson::index)
                     // .service(salesperson::select)
                     // .service(salesperson::create)
-                    // .service(salesperson::update)
+                    .service(salesperson::update)
                     .service(salesperson::delete)
             )
     })
