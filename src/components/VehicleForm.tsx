@@ -2,6 +2,7 @@ import { carType } from '../utils/types'
 import { baseUrl } from '../utils/defines'
 import { notification } from '../utils/notification'
 import { useState, FormEvent } from 'react'
+import { Modal, Group, Text } from '@mantine/core'
 import toast, { Toaster, ToastOptions } from 'react-hot-toast'
 import styles from '../styles/VehicleForm.module.css'
 
@@ -62,6 +63,10 @@ export const VehicleForm = ({parentRef, opened}: any) => {
         })
     }
 
+    const onClose = () => {
+        // not implemented yet
+    }
+
 	const onChange = (e: any) => {
         if (e.target.type === 'number') {
             let value: number = parseFloat(e.target.value);
@@ -88,31 +93,27 @@ export const VehicleForm = ({parentRef, opened}: any) => {
         setCar({...car, [e.target.name]: e.target.value, });
 	}
 
-    const getVisibility = (open: boolean) => {
-        const visibility = open ? `block` : `none`;
-        return visibility;
-    }
-
     return (
-    <div className={styles.container} style={ {display: getVisibility(opened)} }>
-        <Toaster />
-        <form onSubmit={handleSubmit} className={styles.form} >
-            <label htmlFor="brand" className={styles.label} >Marca</label>
-            <input type="text" className={styles.input} name="brand" value={car.brand} onChange={onChange} />
-            <label htmlFor="model" className={styles.label} >Modelo</label>
-            <input type="text" className={styles.input} name="model" value={car.model} onChange={onChange} />
-            <label htmlFor="price" className={styles.label} >Preço</label>
-            <input type="number" className={styles.input} name="price" value={car.price} onChange={onChange} />
+        <>
+        <Modal className={styles.container} opened={opened} onClose={onClose} >
+            <Toaster />
+            <form onSubmit={handleSubmit} className={styles.form} >
+                <label htmlFor="brand" className={styles.label} >Marca</label>
+                <input type="text" className={styles.input} name="brand" value={car.brand} onChange={onChange} />
+                <label htmlFor="model" className={styles.label} >Modelo</label>
+                <input type="text" className={styles.input} name="model" value={car.model} onChange={onChange} />
+                <label htmlFor="price" className={styles.label} >Preço</label>
+                <input type="number" className={styles.input} name="price" value={car.price} onChange={onChange} />
 
-            <label htmlFor="img" className={styles.label} >Foto</label>
-            <div className={styles.fileDialog}>
-                <input type="file" name="img" accept=".gif,.jpg,.jpeg,.png" onChange={onChange} />
-                <img style={{'width':'100%'}} src={"data:" + image.imageFormat + ", " + image.imageData} alt={"car photo"}></img>
-            </div>
-
-            <button type="submit" className={styles.button}>Salvar</button>
-        </form>
-    </div>
+                <label htmlFor="img" className={styles.label} >Foto</label>
+                <div className={styles.fileDialog}>
+                    <input type="file" name="img" accept=".gif,.jpg,.jpeg,.png" onChange={onChange} />
+                    <img style={{'width':'100%'}} src={"data:" + image.imageFormat + ", " + image.imageData} alt={"car photo"}></img>
+                </div>
+                <button type="submit" className={styles.button}>Salvar</button>
+            </form>
+        </Modal>
+        </>
     )
 }
 

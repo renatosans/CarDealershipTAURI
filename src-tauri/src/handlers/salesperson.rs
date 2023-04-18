@@ -18,13 +18,25 @@ async fn index(pool: web::Data<DbPool>) -> Result<HttpResponse, Error> {
       Ok(HttpResponse::Ok().json(salespeople))
 }
 
-// #[post("/salespeople")]
-// async fn create(pool: web::Data<DbPool>, payload: web::Json<Customer>) -> Result<HttpResponse, Error> {
-//     Ok(HttpResponse::Ok().into())
-// }
+#[post("/salespeople")]
+async fn create(pool: web::Data<DbPool>, payload: web::Json<Salesperson>) -> Result<HttpResponse, Error> {
+   let salespersn = web::block(move || {
+      let mut conn = pool.get().unwrap(); // TODO: fix unwrap
+      let result: Result<usize, diesel::result::Error> = diesel::insert_into(salesperson).values(payload.into_inner()).execute(&mut conn);
+      return result;
+   })
+   .await?
+   .map_err(actix_web::error::ErrorInternalServerError)?;
+
+   Ok(HttpResponse::Ok().json(salespersn))
+}
+
+//#[get("/salespeople/{sp_id}")]
+//async fn select
 
 // ...
 // ...
+
 
 #[patch("/salespeople/{sp_id}")]
 async fn update(pool: web::Data<DbPool>, sp_id: web::Path<i32>, payload: web::Json<Salesperson>) -> Result<HttpResponse, Error> {
