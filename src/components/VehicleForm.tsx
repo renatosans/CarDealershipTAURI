@@ -94,8 +94,8 @@ export const VehicleForm = ({parentRef, opened}: any) => {
 	}
 
     return (
-        <>
-        <Modal className={styles.container} opened={opened} onClose={onClose} >
+        <div className={styles.container}>
+        <Modal opened={opened} onClose={onClose} withCloseButton={false} centered={true} >
             <Toaster />
             <form onSubmit={handleSubmit} className={styles.form} >
                 <label htmlFor="brand" className={styles.label} >Marca</label>
@@ -113,7 +113,7 @@ export const VehicleForm = ({parentRef, opened}: any) => {
                 <button type="submit" className={styles.button}>Salvar</button>
             </form>
         </Modal>
-        </>
+        </div>
     )
 }
 

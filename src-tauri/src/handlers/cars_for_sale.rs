@@ -66,7 +66,10 @@ async fn index(pool: web::Data<DbPool>) -> Result<HttpResponse, Error> {
 async fn create(pool: web::Data<DbPool>, payload: web::Json<VehiclePayload>) -> Result<HttpResponse, Error> {
     let payload: VehiclePayload = payload.into_inner();
 
-    let output_dir: String = "".to_string();
+    // TODO: verificar se essa gravaçao no File System é muito custosa
+    let output_dir = format!("{}{}", std::env::current_dir().unwrap().display(), "/img");
+    std::fs::create_dir_all(output_dir.clone()).unwrap();
+
     save_img(payload.clone(), output_dir);
     let new_car = CarsForSale{
         id: payload.id,
