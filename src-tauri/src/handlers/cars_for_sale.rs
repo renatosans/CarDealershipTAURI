@@ -32,7 +32,7 @@ fn save_img(payload: VehiclePayload, output_dir: String) {
     println!("Saving img on File System: {}", file_path);
 
     let encoded  = payload.imageData;
-    let file_data = general_purpose::STANDARD_NO_PAD.decode(encoded).unwrap_or_else(|e| {
+    let file_data = general_purpose::STANDARD.decode(encoded).unwrap_or_else(|e| {
         println!("Error: {}", e);
         Vec::new()
     });
