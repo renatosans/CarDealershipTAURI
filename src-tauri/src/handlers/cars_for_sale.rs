@@ -4,19 +4,34 @@ use base64::{Engine as _, engine::general_purpose};
 use crate::DbPool;
 use crate::models::*;
 use crate::schema::cars_for_sale::dsl::*;
+use serde::{Serialize, Deserialize};
 use diesel::prelude::*;
 use actix_web::{get, post, patch, delete, web, HttpResponse, Error};
 
 
+#[derive(Serialize, Deserialize, Clone)]
+pub struct VehiclePayload {
+    pub id: i32,
+    pub brand: String,
+    pub model: String,
+    pub year: i32,
+    pub img: Option<String>,
+    pub color: Option<String>,
+    pub mileage: Option<i32>,
+    pub category: Option<String>,
+    pub price: f64,
+    pub imageFormat: String,
+    pub imageData: String
+}
+
 // TODO: fix InvalidPadding
-fn save_img(vehicle: CarsForSale, output_dir: String) {
-    /*
-    let extension: String = vehicle.formato_imagem.unwrap().replace("image/", "").replace(";base64", "");
+fn save_img(payload: VehiclePayload, output_dir: String) {
+    let extension: String = payload.imageFormat.replace("image/", "").replace(";base64", "");
     let file_name: String = "generate_new_file_name".to_string();
     let file_path: String = format!("{}/{}.{}", output_dir, file_name, extension);
-    println!("Exporting picture: {}", file_path);
+    println!("Saving img on File System: {}", file_path);
 
-    let encoded  = vehicle.foto.unwrap();
+    let encoded  = payload.imageData;
     let file_data = general_purpose::STANDARD_NO_PAD.decode(encoded).unwrap_or_else(|e| {
         println!("Error: {}", e);
         Vec::new()
@@ -32,7 +47,6 @@ fn save_img(vehicle: CarsForSale, output_dir: String) {
         println!("Error: {}", e);
         return
     });
-    */
 }
 
 #[get("/cars")]
@@ -49,14 +63,26 @@ async fn index(pool: web::Data<DbPool>) -> Result<HttpResponse, Error> {
 }
 
 #[post("/cars")]
-async fn create(pool: web::Data<DbPool>, payload: web::Json<CarsForSale>) -> Result<HttpResponse, Error> {
-    // let image_payload: web::Json<ImagePayload> = payload;
-    // let output_dir: String = "".to_string();
-    // save_img(image_payload, output_dir);
+async fn create(pool: web::Data<DbPool>, payload: web::Json<VehiclePayload>) -> Result<HttpResponse, Error> {
+    let payload: VehiclePayload = payload.into_inner();
+
+    let output_dir: String = "".to_string();
+    save_img(payload.clone(), output_dir);
+    let new_car = CarsForSale{
+        id: payload.id,
+        brand: payload.brand,
+        model: payload.model,
+        year: payload.year,
+        img: Some("".to_string()),     // get the image path from the image file being created
+        color: payload.color,
+        mileage: payload.mileage,
+        category: payload.category,
+        price: payload.price
+    };
 
     let car = web::block(move || {
         let mut conn = pool.get().unwrap(); // TODO: fix unwrap
-        let result: Result<usize, diesel::result::Error> = diesel::insert_into(cars_for_sale).values(payload.into_inner()).execute(&mut conn);
+        let result: Result<usize, diesel::result::Error> = diesel::insert_into(cars_for_sale).values(new_car).execute(&mut conn);
         return result;
     })
     .await?
