@@ -31,12 +31,18 @@ async fn create(pool: web::Data<DbPool>, payload: web::Json<Salesperson>) -> Res
    Ok(HttpResponse::Ok().json(salespersn))
 }
 
-//#[get("/salespeople/{sp_id}")]
-//async fn select
+#[get("/salespeople/{sp_id}")]
+async fn select(pool: web::Data<DbPool>, sp_id: web::Path<i32>) -> Result<HttpResponse, Error> {
+    let salespersn = web::block(move || {
+        let mut conn = pool.get().unwrap(); // TODO: fix unwrap
+        let result: Result<Option<Salesperson>, diesel::result::Error> = salesperson.find(sp_id.into_inner()).first(&mut conn).optional();
+        return result;
+    })
+    .await?
+    .map_err(actix_web::error::ErrorInternalServerError)?;
 
-// ...
-// ...
-
+    Ok(HttpResponse::Ok().json(salespersn))
+}
 
 #[patch("/salespeople/{sp_id}")]
 async fn update(pool: web::Data<DbPool>, sp_id: web::Path<i32>, payload: web::Json<Salesperson>) -> Result<HttpResponse, Error> {
