@@ -7,6 +7,7 @@ import styles from '../styles/VehicleForm.module.css'
 
 
 const emptyCar: carType = {
+    id: 0,
     brand: "",
     model: "",
     year:  2000,
@@ -62,6 +63,15 @@ export const VehicleForm = ({parentRef, opened}: any) => {
     }
 
 	const onChange = (e: any) => {
+        if (e.target.type === 'number') {
+            let value: number = parseFloat(e.target.value);
+            if (!isNaN(value)) {
+                value = parseFloat((Math.round(value * 100) / 100).toFixed(2)); // fixing 2 decimal places
+                setCar({...car, [e.target.name]: value, });
+                return;
+            }
+        }
+
 		if (e.target.type === 'file') {
 			const file = e.target.files[0];
 			// Reads the file using the FileReader API
@@ -92,7 +102,7 @@ export const VehicleForm = ({parentRef, opened}: any) => {
             <label htmlFor="model" className={styles.label} >Modelo</label>
             <input type="text" className={styles.input} name="model" value={car.model} onChange={onChange} />
             <label htmlFor="price" className={styles.label} >Preço</label>
-            <input type="text" className={styles.input} name="price" value={car.price} onChange={onChange} />
+            <input type="number" className={styles.input} name="price" value={car.price} onChange={onChange} />
 
             <label htmlFor="img" className={styles.label} >Foto</label>
             <div className={styles.fileDialog}>
