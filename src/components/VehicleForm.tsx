@@ -2,7 +2,6 @@ import { carType } from '../utils/types'
 import { baseUrl } from '../utils/defines'
 import { notification } from '../utils/notification'
 import { useState, FormEvent } from 'react'
-import { Modal, Group, Text } from '@mantine/core'
 import toast, { Toaster, ToastOptions } from 'react-hot-toast'
 import styles from '../styles/VehicleForm.module.css'
 
@@ -93,9 +92,13 @@ export const VehicleForm = ({parentRef, opened}: any) => {
         setCar({...car, [e.target.name]: e.target.value, });
 	}
 
+    const getVisibility = (open: boolean) => {
+        const visibility = open ? `visible` : `hidden`;
+        return visibility;
+    }
+
     return (
-        <div className={styles.container}>
-        <Modal opened={opened} onClose={onClose} withCloseButton={false} centered={true} >
+        <div className={styles.container} style={ {visibility: getVisibility(opened)} }>
             <Toaster />
             <form onSubmit={handleSubmit} className={styles.form} >
                 <label htmlFor="brand" className={styles.label} >Marca</label>
@@ -112,7 +115,6 @@ export const VehicleForm = ({parentRef, opened}: any) => {
                 </div>
                 <button type="submit" className={styles.button}>Salvar</button>
             </form>
-        </Modal>
         </div>
     )
 }
