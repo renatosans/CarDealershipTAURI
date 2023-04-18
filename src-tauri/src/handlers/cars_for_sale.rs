@@ -25,10 +25,10 @@ pub struct VehiclePayload {
 }
 
 // TODO: fix InvalidPadding
-fn save_img(payload: VehiclePayload, output_dir: String) {
+fn save_img(payload: VehiclePayload, output_dir: String) -> String {
     let extension: String = payload.imageFormat.replace("image/", "").replace(";base64", "");
     let file_name: String = "generate_new_file_name".to_string();
-    let file_path: String = format!("{}/{}.{}", output_dir, file_name, extension);
+    let file_path: String = format!("{}/{}.{}", output_dir, file_name.clone(), extension.clone());
     println!("Saving img on File System: {}", file_path);
 
     let encoded  = payload.imageData;
@@ -36,7 +36,9 @@ fn save_img(payload: VehiclePayload, output_dir: String) {
         println!("Error: {}", e);
         Vec::new()
     });
-    if file_data.is_empty() { return }
+    if file_data.is_empty() {
+        return "".to_string();
+    }
 
     let mut file = File::create(file_path).unwrap();
     file.write_all(&file_data).unwrap_or_else(|e| {
@@ -47,6 +49,8 @@ fn save_img(payload: VehiclePayload, output_dir: String) {
         println!("Error: {}", e);
         return
     });
+
+    return format!("/img/{}.{}", file_name, extension);
 }
 
 #[get("/cars")]
@@ -70,13 +74,13 @@ async fn create(pool: web::Data<DbPool>, payload: web::Json<VehiclePayload>) -> 
     let output_dir = format!("{}{}", std::env::current_dir().unwrap().display(), "/img");
     std::fs::create_dir_all(output_dir.clone()).unwrap();
 
-    save_img(payload.clone(), output_dir);
+    let saved_file: String = save_img(payload.clone(), output_dir);
     let new_car = CarsForSale{
         id: payload.id,
         brand: payload.brand,
         model: payload.model,
         year: payload.year,
-        img: Some("".to_string()),     // get the image path from the image file being created
+        img: Some(saved_file),     // get the image path from the image file being created
         color: payload.color,
         mileage: payload.mileage,
         category: payload.category,
