@@ -1,5 +1,6 @@
 use std::fs::File;
 use std::io::{Write};
+use std::path::PathBuf;
 use base64::{Engine as _, engine::general_purpose};
 use crate::DbPool;
 use crate::models::*;
@@ -27,7 +28,7 @@ pub struct VehiclePayload {
 // TODO: fix InvalidPadding
 fn save_img(payload: VehiclePayload, output_dir: String) -> String {
     let extension: String = payload.image_format.replace("image/", "").replace(";base64", "");
-    let file_name: String = "generate_new_file_name".to_string();
+    let file_name: String = format!("generate_new_file_name_{}", payload.image_data.len());
     let file_path: String = format!("{}/{}.{}", output_dir, file_name.clone(), extension.clone());
     println!("Saving img on File System: {}", file_path);
 
@@ -50,7 +51,7 @@ fn save_img(payload: VehiclePayload, output_dir: String) -> String {
         return
     });
 
-    return format!("/img/{}.{}", file_name, extension);
+    return format!("/img/cars/{}.{}", file_name, extension);
 }
 
 #[get("/cars")]
@@ -71,7 +72,12 @@ async fn create(pool: web::Data<DbPool>, payload: web::Json<VehiclePayload>) -> 
     let payload: VehiclePayload = payload.into_inner();
 
     // TODO: verificar se essa gravaçao no File System é muito custosa
-    let output_dir = format!("{}{}", std::env::current_dir().unwrap().display(), "/img");
+    let mut path = PathBuf::new();
+    path.push(std::env::current_dir().unwrap());
+    path.pop(); // sobe um diretório, verificar em produção como fica
+    path.push("public");
+
+    let output_dir = format!("{}{}", path.display(), "/img/cars");
     std::fs::create_dir_all(output_dir.clone()).unwrap();
 
     let saved_file: String = save_img(payload.clone(), output_dir);
