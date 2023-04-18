@@ -20,8 +20,8 @@ const emptyCar: carType = {
 }
 
 const emptyImage = {
-    imageFormat: "",
-    imageData: "",
+    image_format: "",
+    image_data: "",
 }
 
 export const VehicleForm = ({parentRef, opened}: any) => {
@@ -85,7 +85,7 @@ export const VehicleForm = ({parentRef, opened}: any) => {
                 const result = reader.result as string;
 				const fileData = result.split(';base64,');
 				let formato = fileData[0].replace('data:', '') + ';base64';
-                setImage({imageFormat: formato, imageData: fileData[1]});
+                setImage({image_format: formato, image_data: fileData[1]});
 			}
 			reader.readAsDataURL(file);
 		}
@@ -108,7 +108,7 @@ export const VehicleForm = ({parentRef, opened}: any) => {
                 <label htmlFor="img" className={styles.label} >Foto</label>
                 <div className={styles.fileDialog}>
                     <input type="file" name="img" accept=".gif,.jpg,.jpeg,.png" onChange={onChange} />
-                    <img style={{'width':'100%'}} src={"data:" + image.imageFormat + ", " + image.imageData} alt={"car photo"}></img>
+                    <img style={{'width':'100%'}} src={"data:" + image.image_format + ", " + image.image_data} alt={"car photo"}></img>
                 </div>
                 <button type="submit" className={styles.button}>Salvar</button>
             </form>

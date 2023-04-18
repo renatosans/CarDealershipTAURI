@@ -20,18 +20,18 @@ pub struct VehiclePayload {
     pub mileage: Option<i32>,
     pub category: Option<String>,
     pub price: f64,
-    pub imageFormat: String,
-    pub imageData: String
+    pub image_format: String,
+    pub image_data: String
 }
 
 // TODO: fix InvalidPadding
 fn save_img(payload: VehiclePayload, output_dir: String) -> String {
-    let extension: String = payload.imageFormat.replace("image/", "").replace(";base64", "");
+    let extension: String = payload.image_format.replace("image/", "").replace(";base64", "");
     let file_name: String = "generate_new_file_name".to_string();
     let file_path: String = format!("{}/{}.{}", output_dir, file_name.clone(), extension.clone());
     println!("Saving img on File System: {}", file_path);
 
-    let encoded  = payload.imageData;
+    let encoded  = payload.image_data;
     let file_data = general_purpose::STANDARD.decode(encoded).unwrap_or_else(|e| {
         println!("Error: {}", e);
         Vec::new()
