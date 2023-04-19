@@ -20,8 +20,6 @@ const Footer = () => {
           <div className={styles.card}>
               <h1 className={styles.title}>Our retailers</h1>
               <p className={styles.text}>1654 R. Don Road Avenue #304.<br/>Town City, 8524<br/>(602) 867-1010</p>
-              <p className={styles.text}>2567 R. Erick lam RD #235.<br/>Town City, 8524<br/>(602) 867-1011</p>
-              <p className={styles.text}>3701 R. Erwin St #104.<br/>Town City, 8524<br/>(602) 867-1014</p>
               <p className={styles.text}>1023 R. W. Caroll st Jones #125.<br/>Town City, 8524<br/>(602) 867-1018</p>
           </div>
           <div className={styles.card}>

@@ -93,12 +93,12 @@ export const VehicleForm = ({parentRef, opened}: any) => {
 	}
 
     const getVisibility = (open: boolean) => {
-        const visibility = open ? `visible` : `hidden`;
+        const visibility = open ? `block` : `none`;
         return visibility;
     }
 
     return (
-        <div className={styles.container} style={ {visibility: getVisibility(opened)} }>
+        <div className={styles.container} style={ {display: getVisibility(opened)} }>
             <Toaster />
             <form onSubmit={handleSubmit} className={styles.form} >
                 <label htmlFor="brand" className={styles.label} >Marca</label>
