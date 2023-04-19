@@ -22,10 +22,12 @@ pub type DbPool = r2d2::Pool<ConnectionManager<MysqlConnection>>;
 // mais comuns de mercado  REST API, GraphQL, tRPC, etc...
 // Ao inves disso é utilizada uma API padrão de mercado (REST API)
 
-
 // The purpose of this project is to provide a developer experience similar to NEXTjs, Nuxt
 // or REMIX, using a frontend and backend packed toghether
 // The protocol provided by TAURI was not used in this project, instead a REST API is used
+
+// Frontend at http://127.0.0.1:1420/
+// Backend at http://127.0.0.1:8080/api/cars
 
 
 // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
