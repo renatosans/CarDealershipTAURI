@@ -37,9 +37,9 @@ fn main() {
 
 #[actix_web::main]
 async fn serve() -> std::io::Result<()> {
-    dotenv().ok();
+    dotenv().expect("Unable to load environment variables from .env file");
 
-    let database_url = std::env::var("DATABASE_URL").expect("DATABASE_URL");
+    let database_url = std::env::var("DATABASE_URL").expect("Unable to read DATABASE_URL env var");
     let manager = ConnectionManager::<MysqlConnection>::new(database_url);
     let pool: DbPool = r2d2::Pool::builder()
         .build(manager)
