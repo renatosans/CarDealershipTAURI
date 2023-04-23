@@ -48,7 +48,7 @@ export const VehicleForm = ({parentRef, opened}: any) => {
                 setCar(emptyCar);
                 setImage(emptyImage);
                 parentRef.getCars();  // faz o refresh da lista de veículos
-                parentRef.toggle();   // Fecha o formulario
+                parentRef.setForm1Open(false);   // Fecha o formulario
                 return;
             }
 

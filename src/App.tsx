@@ -4,14 +4,17 @@ import { carType } from './utils/types'
 import { baseUrl } from './utils/defines'
 import { useState, useEffect } from 'react'
 import Carousel from './components/Carousel'
-import VehicleForm from './components/VehicleForm'
 import VehicleList from './components/VehicleList'
+import VehicleForm from './components/VehicleForm'
+import CustomerForm from './components/CustomerForm'
 import toast, { Toaster } from "react-hot-toast"
 
 
 export default function Home() {
-  const [open, setOpen] = useState(false);
   const [cars, setCars] = useState<carType[]>();
+
+  const [form1Open, setForm1Open] = useState<boolean>(false);
+  const [form2Open, setForm2Open] = useState<boolean>(false);
 
   useEffect(() => {
     getCars();
@@ -24,16 +27,12 @@ export default function Home() {
     .catch(error => console.error(error))
   }
 
-  const toggle = () => {
-    setOpen(current => !current);
-  }
-
   const addCar = () => {
-    setOpen(true);
+    setForm1Open(true);
   }
 
   const addCustomer = () => {
-    // not implemented yet
+    setForm2Open(true);
   }
 
   return (
@@ -50,9 +49,10 @@ export default function Home() {
         <button className="button" onClick={addCustomer}>Cadastrar Cliente</button>
       </div>
       <Draggable>
-      <div>
-        <VehicleForm parentRef={{ toggle, getCars }} opened={open} />
-      </div>
+        <div><VehicleForm parentRef={{ setForm1Open, getCars }} opened={form1Open} /></div>
+      </Draggable>
+      <Draggable>
+        <div><CustomerForm parentRef={{ setForm2Open }} opened={form2Open} /></div>
       </Draggable>
       <VehicleList items={cars} desc={'Car for sale. Available'} />
     </div>
