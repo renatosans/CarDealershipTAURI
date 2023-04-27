@@ -3,7 +3,7 @@
     height: calc(100vh - 100px);
     overflow: hidden;
     position: relative;
-  }
+}
 
 .arrowContainer {
   bottom: 0;
