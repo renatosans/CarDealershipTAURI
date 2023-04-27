@@ -1,17 +1,30 @@
 .container {
-  align-items: center;
+  --tw-bg-opacity: 1;
+  background-color: rgb(47 47 47 / var(--tw-bg-opacity));
   display: flex;
   flex-direction: column;
-  padding: 20px 10px;
+  padding: 0;
+  align-items: center;
+  justify-content: center;
+}
+
+.title {
+  color: white;
+  font-size: 32px;
 }
 
 .desc {
-  color: #444;
-  font-size: 24px;
-  width: 70%;
+  color: white;
+  font-size: 20px;
 }
 
-.wrapper {
+.mainWrapper {
+  display: flex;
+  background-color: lightgray;
+  width: 100%;
+}
+
+.listWrapper {
   align-items: center;
   display: flex;
   flex-wrap: wrap;

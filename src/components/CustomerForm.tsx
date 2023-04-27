@@ -60,12 +60,12 @@ export const CustomerForm = ({parentRef, opened}: any) => {
 	}
 
     const getVisibility = (open: boolean) => {
-        const visibility = open ? `block` : `none`;
+        const visibility = open ? `visible` : `hidden`;
         return visibility;
     }
 
     return (
-        <div className={styles.container} style={ {display: getVisibility(opened)} }>
+        <div className={styles.container} style={ {visibility: getVisibility(opened)} }>
             <Toaster />
             <form onSubmit={handleSubmit} className={styles.form} >
                 <label htmlFor="first_name" className={styles.label} >Nome</label>
