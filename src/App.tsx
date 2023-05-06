@@ -1,7 +1,7 @@
 import "./App.css";
 import Draggable from 'react-draggable'
 import { carType } from './utils/types'
-import { baseUrl } from './utils/defines'
+import { baseUrl } from './utils/defines'   // RUST API
 import { useState, useEffect } from 'react'
 import Carousel from './components/Carousel'
 import VehicleList from './components/VehicleList'
