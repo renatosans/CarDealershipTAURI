@@ -10,7 +10,7 @@ const Layout = ({children}: React.PropsWithChildren<{}>) => {
              {children}
             <Footer/>
         </>
-    );
-};
+    )
+}
 
 export default Layout
