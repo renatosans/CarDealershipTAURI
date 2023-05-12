@@ -20,12 +20,11 @@
 
 .mainWrapper {
   display: flex;
+  align-items: stretch;
   background-color: lightgray;
-  width: 100%;
 }
 
 .listWrapper {
-  align-items: center;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;

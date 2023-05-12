@@ -15,6 +15,7 @@ const VehicleList = ({items, desc}: props) => {
       <h1 className={styles.title}>Best Deal Guarantee</h1>
       <p className={styles.desc}>{desc}</p>
       <div className={styles.mainWrapper}>
+        <CarFilter/>
         <div className={styles.listWrapper}>{
           (items)
           ? items.map((car: carType) => <VehicleCard car={car} currency={"R$"} />)

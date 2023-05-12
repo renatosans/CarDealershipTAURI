@@ -48,6 +48,7 @@ export default function Home() {
         <button className="button" onClick={addCar}>Cadastrar veículo</button>        
         <button className="button" onClick={addCustomer}>Cadastrar Cliente</button>
       </div>
+      <VehicleList items={cars} desc={'Car for sale. Available'} />
       <Draggable>
         <div style={{height: 0}}>
           <VehicleForm parentRef={{ setForm1Open, getCars }} opened={form1Open} />
@@ -58,7 +59,6 @@ export default function Home() {
           <CustomerForm parentRef={{ setForm2Open }} opened={form2Open} />
         </div>
       </Draggable>
-      <VehicleList items={cars} desc={'Car for sale. Available'} />
     </div>
   )
 }
