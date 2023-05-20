@@ -83,9 +83,20 @@ async fn cars_by_price(pool: web::Data<DbPool>, params: web::Query<PriceRange>) 
     Ok(HttpResponse::Ok().json(filters))
 }
 
+#[derive(Deserialize)]
+struct CarFilter {
+    yearFrom: Option<u32>,
+    yearTo: Option<u32>,
+}
+
+// TODO: filter cars by price, mileage and year
 #[get("/cars_filtered")]
-async fn cars_filtered(pool: web::Data<DbPool>) -> Result<HttpResponse, Error> {
-    Ok(HttpResponse::Ok().into())
+async fn cars_filtered(pool: web::Data<DbPool>, params: web::Query<CarFilter>) -> Result<HttpResponse, Error> {
+    let yearFrom = params.yearFrom.unwrap();
+    let yearTo = params.yearTo.unwrap();
+
+    let filters: Vec<String> = vec![yearFrom.to_string(), yearTo.to_string()];
+    Ok(HttpResponse::Ok().json(filters))
 }
 
 #[post("/cars")]
