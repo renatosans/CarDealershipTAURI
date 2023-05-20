@@ -73,7 +73,8 @@ struct PriceRange {
     max: Option<u32>,
 }
 
-// TODO: filter cars by price, example   http://localhost:8080/api/cars_by_price?min=999&max=99900
+// TODO: filter cars by price
+// example  http://localhost:8080/api/cars_by_price?min=999&max=99900
 #[get("/cars_by_price")]
 async fn cars_by_price(pool: web::Data<DbPool>, params: web::Query<PriceRange>) -> Result<HttpResponse, Error> {
     let min = params.min.unwrap();
@@ -94,6 +95,7 @@ struct CarFilter {
 }
 
 // TODO: filter cars by price, mileage and year
+// example  http://localhost:8080/cars_filtered?fromYear=2001&toYear=2023&fromMileage=0&toMileage=999999&fromPrice=0&toPrice=81500
 #[get("/cars_filtered")]
 async fn cars_filtered(pool: web::Data<DbPool>, params: web::Query<CarFilter>) -> Result<HttpResponse, Error> {
     let fromYear = params.fromYear.unwrap();
