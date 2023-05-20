@@ -94,32 +94,42 @@ async fn cars_by_price(pool: web::Data<DbPool>, params: web::Query<PriceRange>) 
     Ok(HttpResponse::Ok().json(filtered_cars))
 }
 
-#[derive(Deserialize)]
+#[derive(Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")] // a API vai responder em CameCase, o RUST não gosta de camel case, sua convenção é snake case
 struct CarFilter {
-    fromYear: Option<u32>,
-    toYear: Option<u32>,
-    fromMileage: Option<u32>,
-    toMileage: Option<u32>,
-    fromPrice: Option<f64>,
-    toPrice: Option<f64>,
+    from_year: Option<i32>,
+    to_year: Option<i32>,
+    from_mileage: Option<i32>,
+    to_mileage: Option<i32>,
+    from_price: Option<f64>,
+    to_price: Option<f64>,
 }
 
 // TODO: filter cars by price, mileage and year
-// example  http://localhost:8080/cars_filtered?fromYear=2001&toYear=2023&fromMileage=0&toMileage=999999&fromPrice=0&toPrice=81500
+// example  http://localhost:8080/api/cars_filtered?fromYear=2001&toYear=2023&fromMileage=0&toMileage=999999&fromPrice=0&toPrice=81500
 #[get("/cars_filtered")]
 async fn cars_filtered(pool: web::Data<DbPool>, params: web::Query<CarFilter>) -> Result<HttpResponse, Error> {
-    let fromYear = params.fromYear.unwrap();
-    let toYear = params.toYear.unwrap();
-    let fromMileage = params.fromMileage.unwrap();
-    let toMileage = params.toMileage.unwrap();
-    let fromPrice = params.fromPrice.unwrap();
-    let toPrice = params.toPrice.unwrap();
+    let fromYear = params.from_year.unwrap();
+    let toYear = params.to_year.unwrap();
+    let fromMileage = params.from_mileage.unwrap();
+    let toMileage = params.to_mileage.unwrap();
+    let fromPrice = params.from_price.unwrap();
+    let toPrice = params.to_price.unwrap();
 
-    let filters: Vec<String> = vec![fromYear.to_string(), toYear.to_string(),
-                                    fromMileage.to_string(), toMileage.to_string(),
-                                    fromPrice.to_string(), toPrice.to_string()
-                                   ];
-    Ok(HttpResponse::Ok().json(filters))
+    let filtered_cars = web::block(move || {
+        let mut conn = pool.get().unwrap(); // TODO: fix unwrap
+        let result: Result<Vec<CarsForSale>, diesel::result::Error> = cars_for_sale
+            .filter(year.between(fromYear, toYear))
+            .filter(mileage.between(fromMileage, toMileage))
+            .filter(price.between(fromPrice, toPrice))
+            .load::<CarsForSale>(&mut conn);
+
+        return result;
+    })
+    .await?
+    .map_err(actix_web::error::ErrorInternalServerError)?;
+
+    Ok(HttpResponse::Ok().json(filtered_cars))
 }
 
 #[post("/cars")]
