@@ -69,8 +69,8 @@ async fn index(pool: web::Data<DbPool>) -> Result<HttpResponse, Error> {
 
 #[derive(Deserialize)]
 struct PriceRange {
-    min: Option<u32>,
-    max: Option<u32>,
+    min: Option<f64>,
+    max: Option<f64>,
 }
 
 // TODO: filter cars by price
@@ -80,8 +80,18 @@ async fn cars_by_price(pool: web::Data<DbPool>, params: web::Query<PriceRange>) 
     let min = params.min.unwrap();
     let max = params.max.unwrap();
 
-    let filters: Vec<String> = vec![min.to_string(), max.to_string()];
-    Ok(HttpResponse::Ok().json(filters))
+    let filtered_cars = web::block(move || {
+        let mut conn = pool.get().unwrap(); // TODO: fix unwrap
+        let result: Result<Vec<CarsForSale>, diesel::result::Error> = cars_for_sale
+            .filter(price.between(min, max))
+            .load::<CarsForSale>(&mut conn);
+
+        return result;
+    })
+    .await?
+    .map_err(actix_web::error::ErrorInternalServerError)?;
+
+    Ok(HttpResponse::Ok().json(filtered_cars))
 }
 
 #[derive(Deserialize)]
