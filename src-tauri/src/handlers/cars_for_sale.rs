@@ -67,6 +67,27 @@ async fn index(pool: web::Data<DbPool>) -> Result<HttpResponse, Error> {
     Ok(HttpResponse::Ok().json(cars))
 }
 
+#[derive(Deserialize)]
+struct PriceRange {
+    min: Option<u32>,
+    max: Option<u32>,
+}
+
+// TODO: filter cars by price, example   http://localhost:8080/api/cars_by_price?min=999&max=99900
+#[get("/cars_by_price")]
+async fn cars_by_price(pool: web::Data<DbPool>, params: web::Query<PriceRange>) -> Result<HttpResponse, Error> {
+    let min = params.min.unwrap();
+    let max = params.max.unwrap();
+
+    let filters: Vec<String> = vec![min.to_string(), max.to_string()];
+    Ok(HttpResponse::Ok().json(filters))
+}
+
+#[get("/cars_filtered")]
+async fn cars_filtered(pool: web::Data<DbPool>) -> Result<HttpResponse, Error> {
+    Ok(HttpResponse::Ok().into())
+}
+
 #[post("/cars")]
 async fn create(pool: web::Data<DbPool>, payload: web::Json<VehiclePayload>) -> Result<HttpResponse, Error> {
     let payload: VehiclePayload = payload.into_inner();

@@ -30,12 +30,16 @@ pub async fn serve() -> std::io::Result<()> {
             .app_data(web::Data::new(pool.clone()))
             .route("/", web::get().to(|| async { "Actix REST API" }))
             .service(
+                //  TODO: Refatorar, verificar as bibliotecas "syn" e "quote".
+                //  Rust doesn't have reflection, so create a trait to discover available methods in each handler
                 web::scope("/api")
                     .service(cars_for_sale::index)
                     .service(cars_for_sale::select)
                     .service(cars_for_sale::create)
                     .service(cars_for_sale::update)
                     .service(cars_for_sale::delete)
+                    .service(cars_for_sale::cars_by_price)
+                    .service(cars_for_sale::cars_filtered)
                     .service(customer::index)
                     .service(customer::select)
                     .service(customer::create)
